@@ -1,9 +1,19 @@
 import pygame
 from scenes.day_cycle_scene import DayCycleScene
+from ui.utils import SpriteSheet
 class GameWorldScene:
     def __init__(self, scene_manager, overlay_manager):
         self.scene_manager = scene_manager
         self.overlay_manager = overlay_manager
+        self.spritesheet = SpriteSheet("assets/MC1.png")
+        self.frames = [
+            self.spritesheet.get_image(i, 32, 32, scale=2)
+            for i in range(4)
+        ]
+        self.current_frame = 0
+        self.frame_timer = 0
+        self.frame_delay = 150
+        self.position = (100, 100)
         self.player = pygame.Rect(400, 300, 32, 32)
         self.terminal = pygame.Rect(600, 300, 32, 32)
         self.font = pygame.font.SysFont(None, 24)
@@ -26,6 +36,11 @@ class GameWorldScene:
         if keys[pygame.K_d]:
             self.player.x += speed
         self.player.clamp_ip(pygame.Rect(0, 0, 800, 600))
+        # Animation
+        self.frame_timer += 1
+        if self.frame_timer >= self.frame_delay // 10:
+            self.frame_timer = 0
+            self.current_frame = (self.current_frame + 1) % len(self.frames)
         # Check interaction
         self.show_interact_prompt = self.player.colliderect(self.terminal)
 
@@ -33,7 +48,8 @@ class GameWorldScene:
         screen.fill((30, 30, 30))
         
         # Draw terminal and player
-        pygame.draw.rect(screen, (0, 200, 255), self.player)
+        frame = self.frames[self.current_frame]
+        screen.blit(frame, self.player.topleft)
         pygame.draw.rect(screen, (200, 100, 255), self.terminal)
 
         # Prompt
