@@ -18,9 +18,9 @@ class OverlayManager:
             if self.overlays:
                  self.overlays[-1].handle_event(event)
 
-    def update(self):
+    def update(self, delta_time):
          if self.overlays:
-              self.overlays[-1].update()
+              self.overlays[-1].update(delta_time)
 
     def draw(self,screen):
          for overlay in self.overlays:
