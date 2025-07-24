@@ -9,8 +9,8 @@ class SceneManager:
     def handle_event(self, event):
             self.current_scene.handle_event(event)
     
-    def update(self):
-        self.current_scene.update()
+    def update(self, delta_time):
+        self.current_scene.update(delta_time)
 
     def draw(self, screen):
         self.current_scene.draw(screen)

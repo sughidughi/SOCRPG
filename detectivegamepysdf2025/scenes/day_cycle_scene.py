@@ -1,11 +1,12 @@
 # scenes/day_cycle_scene.py
 
 import pygame
+from scenes.base_scene import BaseScene
 from ui.ticket_card import TicketCard
 
-class DayCycleScene:
+class DayCycleScene(BaseScene):
     def __init__(self, scene_manager):
-        self.scene_manager = scene_manager
+        super().__init__(scene_manager)
         self.tickets = self.generate_tickets()
         self.selected_ticket = None
         self.font = pygame.font.SysFont("arial", 24)
@@ -25,7 +26,7 @@ class DayCycleScene:
                     self.selected_ticket = ticket
                     print (f"Selected ticket: {ticket.title}")
     
-    def update(self):
+    def update(self, detla_time):
         # Placeholder (logic like animations or time-based events go here eventually)
         pass
 
